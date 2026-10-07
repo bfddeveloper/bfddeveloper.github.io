@@ -1,0 +1,13 @@
+{% comment %}
+Interactive 3D model (rotate / zoom). Loads only after the visitor clicks, so pages stay fast.
+Usage: {% include model-viewer.html src="enclosure.glb" poster="enclosure.png" alt="Enclosure assembly" %}
+`src` and `poster` are files in this project's folder. Export .glb from SolidWorks (STL -> GLB via Blender) under ~5 MB.
+{% endcomment %}
+{% assign folder_path = page.path | split: "/" | slice: 0, 2 | join: "/" %}
+{% assign base = "/" | append: folder_path | append: "/" %}
+<div class="model-viewer-wrap" data-src="{{ base }}{{ include.src }}" data-alt="{{ include.alt | default: 'Interactive 3D model' }}">
+  <button type="button" class="model-viewer-load" aria-label="Load interactive 3D model">
+    {% if include.poster %}<img src="{{ base }}{{ include.poster }}" alt="{{ include.alt | default: '3D model preview' }}" loading="lazy">{% endif %}
+    <span class="model-viewer-cta"><i class="fa-solid fa-cube"></i> Click to explore in 3D</span>
+  </button>
+</div>

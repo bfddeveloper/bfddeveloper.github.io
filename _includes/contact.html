@@ -3,10 +3,10 @@
     <h2>Contact</h2>
 
     <div class="group">
-      
+      {% if site.formspree-key and site.formspree-key != "" %}
         <form action="https://formspree.io/f/{{site.formspree-key}}" method="POST">
             <label for="name">Name</label>
-            <input type="text" id="name">
+            <input type="text" id="name" name="name">
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email">
@@ -16,5 +16,25 @@
 
             <button type="submit">Send Message</button>
         </form>
+      {% else %}
+        <div class="contact-direct">
+            <p>Looking for a Spring 2027 co-op. The fastest way to reach me is email or LinkedIn.</p>
+            <div class="contact-buttons">
+                {% if site.contact-email %}
+                <a class="contact-button" href="mailto:{{ site.contact-email }}">
+                    <i class="fa-solid fa-envelope"></i> Email me
+                </a>
+                {% endif %}
+                {% if site.external-links.linkedin %}
+                <a class="contact-button secondary" href="https://www.linkedin.com/in/{{ site.external-links.linkedin }}/" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-linkedin"></i> LinkedIn
+                </a>
+                {% endif %}
+                <a class="contact-button secondary" href="{{ site.resume-url }}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-file-lines"></i> Résumé
+                </a>
+            </div>
+        </div>
+      {% endif %}
     </div>
   </section>

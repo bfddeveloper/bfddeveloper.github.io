@@ -1,0 +1,20 @@
+{% comment %}
+Captioned image grid with click-to-enlarge.
+Usage: {% include results-gallery.html set=page.results %}
+Each entry in the list needs `src` (file in this project's folder, or a full https:// URL) and `caption`.
+{% endcomment %}
+{% assign images = include.set | default: page.results %}
+{% assign folder_path = page.path | split: "/" | slice: 0, 2 | join: "/" %}
+<div class="results-gallery">
+  {% for img in images %}
+    {% if img.src contains 'https://' %}
+      {% assign src = img.src %}
+    {% else %}
+      {% assign src = "/" | append: folder_path | append: "/" | append: img.src %}
+    {% endif %}
+    <figure class="rg-item">
+      <img src="{{ src }}" alt="{{ img.caption | strip_html | escape }}" loading="lazy">
+      {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
+    </figure>
+  {% endfor %}
+</div>

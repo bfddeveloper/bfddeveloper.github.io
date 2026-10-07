@@ -1,26 +1,36 @@
-<!-- SECTION 3: project -->
+<!-- SECTION 3: projects -->
 <section id="projects" class="project-grid-section">
     <h2>Projects</h2>
 
-    <div class="grid-container">
-        {% for item in site.projects %}
-    <a href="{{ item.url }}" class="project-link">
-        <div class="project-card">
-            {% assign folder_path = item.path | split: "/" | slice: 0, 2 | join: "/" %}
-            {% assign image_path = "/" | append: folder_path | append: item['main-image'] %}
-            <img src="{{ image_path }}" alt="{{ item.title }} image">
-            <h3 class="project-title">{{ item.title }}</h3>
-            <div class="project-skills">
-                {% for skill in item.skills %}
-                    <span class="skill">{{ skill }}</span>
-                {% endfor %}
-            </div>
-            <p class="project-description">{{ item.description }}</p>
-            <button class="read-more">Read more →</button>
-        </div>
-    </a>
-{% endfor %}
+    {% assign featured = site.projects | where: "featured", true | sort: "order", "last" %}
+    {% assign others = site.projects | where_exp: "p", "p.featured != true" %}
+
+    <nav class="project-jump" aria-label="Project sections">
+        {% if featured.size > 0 %}<a href="#featured">Featured</a>{% endif %}
+        {% for cat in site.project-categories %}
+            {% assign count = others | where: "category", cat | size %}
+            {% if count > 0 %}<a href="#{{ cat | slugify }}">{{ cat }}</a>{% endif %}
+        {% endfor %}
+    </nav>
+
+    {% if featured.size > 0 %}
+    <h3 class="project-category" id="featured">Featured</h3>
+    <div class="grid-container featured">
+        {% for item in featured %}
+            {% include project-card.html item=item %}
+        {% endfor %}
     </div>
+    {% endif %}
 
-
- </section>
+    {% for cat in site.project-categories %}
+        {% assign items = others | where: "category", cat | sort: "order", "last" %}
+        {% if items.size > 0 %}
+        <h3 class="project-category" id="{{ cat | slugify }}">{{ cat }}</h3>
+        <div class="grid-container">
+            {% for item in items %}
+                {% include project-card.html item=item %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</section>
