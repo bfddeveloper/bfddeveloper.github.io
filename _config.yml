@@ -18,7 +18,7 @@ profile_image: /assets/images/profile-image/avatar.jpeg
 
 
 # Resume (PDF in assets/resume/). Use a copy WITHOUT a phone number - this site is public.
-resume-url: /assets/resume/Resume.pdf
+resume-url: /assets/resume/Brody_Dickson_Resume.pdf
 
 
 # External links - icons next to your name. Entries left blank will not appear.
@@ -130,3 +130,4 @@ exclude:
   - LICENSE
   - Gemfile
   - Gemfile.lock
+  - pdf
